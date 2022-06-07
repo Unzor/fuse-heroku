@@ -1,13 +1,14 @@
 const { wakeDyno, wakeDynos } = require('heroku-keep-awake');
-#!/usr/bin/env node
 const express = require('express');
 const fs = require("fs");
 var parser = require("cli2json");
 var args = parser.parse(process.argv.slice(2).join(" "), {
   readCommandAfter: ["-u", "--use", "-a", "--attach"]
 })
+
 const app = express();
 app.use(express.static(__dirname));
+
 var funcs = [];
 
 
@@ -24,7 +25,6 @@ function arrayFindIncludes(r, n) {
     });
     return u
 }
-
 
 function FUSE_FN(fn){
 	funcs.push(fn.name);
@@ -46,6 +46,7 @@ function FUSE_FN(fn){
 		}
 	})
   }
+
 
 function rangethrough(sequence, str) {
     var a2 = [];
@@ -69,7 +70,6 @@ function rangethrough(sequence, str) {
     return a3;
 }
 
-
 if (arrayFindIncludes("-u", args.flags) || arrayFindIncludes("--use", args.flags)) {
   var preload = JSON.parse(fs.readFileSync(args.flags[0].split(" ")[1]).toString());
   preload.files.forEach(function(file){
@@ -88,11 +88,10 @@ app.get('/fuse/functions', (req, res) => {
   res.send({list: funcs});
 });
 
-
 app.listen(process.env.PORT || 3000, () => {
   console.log('Fuse server started');
   setInterval(function(){
-	var data = rangethrough(["/*","*/"], fs.readFileSync('functions.js'))[1].split("\n")[1].split(" = ")[1];
+	var data = rangethrough(["/*","*/"], fs.readFileSync('functions.js').toString())[1].split("\n")[1].split(" = ")[1];
   	wakeDyno("https://"+data);
   }, 600000)
 });
