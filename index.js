@@ -26,27 +26,18 @@ function arrayFindIncludes(r, n) {
     return u
 }
 
-function FUSE_FN(fn){
-	funcs.push(fn.name);
-	var fne;
-	app.get("/fuse/run/" + fn.name, async (req, res) => {
-		if (req.query.args) {
-			var args = atob(req.query.args).split(",");
-      if (fn.constructor.name == "AsyncFunction") {
-			  res.send(await fn(...args))
-      } else {
-        res.send(fn(...args))
-      }
-		} else {
-			if (fn.constructor.name == "AsyncFunction") {
-			  res.send(await fn(...args))
-      } else {
-        res.send(fn(...args))
-      }
-		}
-	})
-  }
-
+function FUSE_FN(fn) {
+    funcs.push(fn.name);
+    var fne;
+    app.get("/fuse/run/" + fn.name, async (req, res) => {
+        if (req.query.args) {
+            var args = atob(req.query.args).split(",");
+            res.send(await fn(...args))
+        } else {
+            res.send(await fn())
+        }
+    })
+}
 
 function rangethrough(sequence, str) {
     var a2 = [];
