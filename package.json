@@ -1,17 +1,20 @@
 {
   "name": "fuse",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.1",
+  "description": "fuse heroku",
   "main": "index.js",
   "scripts": {
-    "start": "node ."
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node . -u preload.json"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.1"
+    "axios": "^0.27.2",
+    "cli2json": "^1.0.0",
+    "express": "^4.18.1",
+    "heroku-keep-awake": "^1.1.2"
   },
   "engines": {
     "node": "16.x"
